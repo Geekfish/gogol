@@ -2,15 +2,15 @@ package main
 
 import (
 	"fmt"
-	"time"
 	"math/rand"
+	"time"
 )
 
 const BoardSize int = 70
 
 type Cell struct {
-	x, y int
-    thisGen, nextGen bool
+	x, y             int
+	thisGen, nextGen bool
 }
 
 type Grid [BoardSize][BoardSize]*Cell
@@ -27,7 +27,7 @@ func (c *Cell) SetNextGen(grid Grid) {
 	 Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
 	*/
 	neighbours_alive := c.GetNeighboursAlive(grid)
-	c.nextGen = (!c.thisGen && neighbours_alive == 3) || (c.thisGen && 1 < neighbours_alive  && neighbours_alive < 4)
+	c.nextGen = (!c.thisGen && neighbours_alive == 3) || (c.thisGen && 1 < neighbours_alive && neighbours_alive < 4)
 }
 
 func (c Cell) GetNeighboursAlive(grid Grid) int {
@@ -70,6 +70,7 @@ func (grid Grid) Play() {
 
 func MakeGrid() *Grid {
 	grid := new(Grid)
+	rand.Seed(time.Now().UTC().UnixNano())
 	for x, row := range grid {
 		for y, _ := range row {
 			c := &Cell{x, y, RandomBool(), RandomBool()}
